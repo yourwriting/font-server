@@ -84,7 +84,7 @@ def combine_letters_5():
 
             background.paste(consonant, (60, 30))
             background.paste(vowel, (58, 30 + height))
-            background.paste(vowel2_resized, (58 + width2, 30))
+            background.paste(vowel2, (58 + width2, 30))
             background.save(path + '/letter_' + str(i).zfill(2) + "_" + str(index).zfill(2) + ".PNG")
         index += 1
 
@@ -108,7 +108,7 @@ def combine_letters_5():
 
             background.paste(consonant, (60, 30))
             background.paste(vowel, (58, 30 + height + int(height / 10)))
-            background.paste(vowel2_resized, (58 + width2, 30))
+            background.paste(vowel2, (58 + width2, 30))
             background.save(path + '/letter_' + str(i).zfill(2) + "_" + str(index).zfill(2) + ".PNG")
         index += 1
 

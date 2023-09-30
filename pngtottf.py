@@ -9,7 +9,7 @@ def makefont(width, height):
     image = Image.open('./concat.PNG')
 
     factor = 10 # size factor so that coords are in range [16, 65536]
-    private_range = 0xac00
+    private_range = 0xAC00
     #background = (0, 0, 0) # background RGB color
     background = (255, 255, 255)
 

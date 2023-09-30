@@ -104,10 +104,9 @@ def combine_letters_5():
                 # Resize the second vowel image with a specified filter
                 vowel2_resized = vowel2.resize((new_width, new_height), Image.LANCZOS)
 
-                # Create a new image with RGBA mode and paste images onto it
                 background.paste(consonant, (60, 30))
                 background.paste(vowel, (58, 30 + height))
-                background.paste(vowel2_resized, (58 + width2, 30))
+                background.paste(vowel2, (58 + width2, 30))
                 background.paste(consonant2, (70, 50 + height))
                 background.save(
                     path + '/letter_' + str(i).zfill(2) + "_" + str(index).zfill(2) + "_" + str(k).zfill(2) + ".PNG")
@@ -135,7 +134,7 @@ def combine_letters_5():
 
                 background.paste(consonant, (60, 30))
                 background.paste(vowel, (58, 30 + height + int(height / 10)))
-                background.paste(vowel2_resized, (58 + width2, 30))
+                background.paste(vowel2, (58 + width2, 30))
                 background.paste(consonant2, (60, 30 + height + height2 + int(height / 10)))
                 background.save(
                     path + '/letter_' + str(i).zfill(2) + "_" + str(index).zfill(2) + "_" + str(k).zfill(2) + ".PNG")
