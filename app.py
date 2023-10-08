@@ -41,13 +41,13 @@ def concat():
                 for f in os.listdir(folder) if f.endswith('.PNG')]
     image_paths = sorted(image_paths)
 
-    image = concatImg.concat_images(image_paths, (20, 20), (84, 133))
+    image = concatImg.concat_images(image_paths, (33, 33), (84, 133))
     return 'concat success!'
 
 
 @app.route('/create', methods=['GET'])
 def create():
-    pngtottf.makefont(20, 20)
+    pngtottf.makefont(33, 33)
 
     with open('font.ttf', 'rb') as font_file:
         font_binary = io.BytesIO(font_file.read())
