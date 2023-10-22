@@ -42,6 +42,25 @@ def rescale_image_width(image, rescale_width, rescale_height):
     return image.resize((new_width, new_height), Image.LANCZOS)
 
 
+def rescale_image_ratio(image, rescale_width=None, rescale_height=None):
+    width, height = image.size
+
+    if rescale_width is not None:
+        # Calculate new height preserving aspect ratio
+        aspect_ratio = width / height
+        new_width = int(rescale_width)
+        new_height = int(new_width / aspect_ratio)
+    elif rescale_height is not None:
+        # Calculate new width preserving aspect ratio
+        aspect_ratio = height / width
+        new_height = int(rescale_height)
+        new_width = int(new_height / aspect_ratio)
+    else:
+        raise ValueError("Either 'rescale_width' or 'rescale_height' must be provided.")
+
+    return image.resize((new_width, new_height), Image.LANCZOS)
+
+
 def run():
     for i in range(1, 41):
         # 이미지 파일 읽기
@@ -51,7 +70,8 @@ def run():
         image = crop(image)
 
         # 흰 배경 투명화
-        image = transparent(image)
+        # image = transparent(image)
+        rescale_image_width(20, 20)
         image.save("./crops/" + str(i) + ".PNG")
 
 
@@ -93,11 +113,6 @@ def transletters():
             new_width = bg_width - 10  # leave a small margin
             scale_factor = new_width / img_width
             new_height = int(scale_factor * img_height)
-
-            # if new_height > bg_height:  # Check whether it exceeds the other dimension of the background.
-            #     new_height = bg_height - 10
-            #     scale_factor = new_height / img_height
-            #     new_width = int(scale_factor * img_width)
 
         else:
             new_height = bg_height - 10
