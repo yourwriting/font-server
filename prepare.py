@@ -2,6 +2,7 @@ from PIL import Image, ImageChops
 import os
 
 
+
 # 글자 가장자리 여백을 자르는 함수
 def crop(image):
     white = Image.new(image.mode, image.size, image.getpixel((0, 0)))
@@ -32,6 +33,13 @@ def transparent(image):
 
     image.putdata(new_data)
     return image
+
+
+def rescale_image_width(image, rescale_width, rescale_height):
+    width, height = image.size
+    new_width = int(rescale_width)
+    new_height = int(rescale_height)
+    return image.resize((new_width, new_height), Image.LANCZOS)
 
 
 def run():

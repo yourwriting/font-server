@@ -9,7 +9,8 @@ if not os.path.exists(target_dir):
 
 for i in range(1, 41):
     source_file = os.path.join(source_dir, f"{i}.PNG")
-    target_file = os.path.join(target_dir, f"{i}.PNG")
+    fileNum = str(i).zfill(2)
+    target_file = os.path.join(target_dir, f"{fileNum}.PNG")
 
     shutil.copy(source_file, target_file)
 
