@@ -4,6 +4,25 @@ from PIL import Image
 
 path = './combinations'
 
+def rescale_image_ratio(image, rescale_width=None, rescale_height=None):
+    width, height = image.size
+
+    if rescale_width is not None:
+        # Calculate new height preserving aspect ratio
+        aspect_ratio = width / height
+        new_width = int(rescale_width)
+        new_height = int(new_width / aspect_ratio)
+    elif rescale_height is not None:
+        # Calculate new width preserving aspect ratio
+        aspect_ratio = height / width
+        new_height = int(rescale_height)
+        new_width = int(new_height / aspect_ratio)
+    else:
+        raise ValueError("Either 'rescale_width' or 'rescale_height' must be provided.")
+
+    return image.resize((new_width, new_height), Image.LANCZOS)
+
+
 # ㅏ ㅐ ㅑ ㅒ ㅣ
 def combine_letters_1():
     for k in [1, 3, 4, 6, 7, 8, 10, 12, 13, 15, 16, 17, 18, 19]:
@@ -14,11 +33,14 @@ def combine_letters_1():
                 vowel = Image.open('./crops/' + str(j) + '.PNG')
                 consonant2 = Image.open('./crops/' + str(k) + '.PNG')  # 받침
 
-                width, height = vowel.size
+                consonant = rescale_image_ratio(consonant, rescale_height=50)
+                vowel = rescale_image_ratio(vowel, rescale_height=60)
+                consonant2 = rescale_image_ratio(consonant2, rescale_height=40)
 
-                background.paste(consonant, (60, 30))
-                background.paste(vowel, (100, 25))
-                background.paste(consonant2, (80, 25 + height))
+                background.paste(consonant, (10, 10))
+                background.paste(vowel, (int(10+consonant.width*1.1), 5))
+                center = 10 + int((consonant.width*1.1+vowel.width) * 0.5)
+                background.paste(consonant2, (center-int(consonant2.width*0.5), 65))
                 background.save(
                     path + '/letter_' + str(i).zfill(2) + "_" + str(j).zfill(2) + "_" + str(k).zfill(2) + ".PNG")
 
@@ -33,12 +55,14 @@ def combine_letters_2():
                 vowel = Image.open('./crops/' + str(j) + '.PNG')
                 consonant2 = Image.open('./crops/' + str(k) + '.PNG')
 
-                width, height = consonant.size
-                width2, height2 = vowel.size
+                consonant = rescale_image_ratio(consonant, rescale_height=50)
+                vowel = rescale_image_ratio(vowel, rescale_height=60)
+                consonant2 = rescale_image_ratio(consonant2, rescale_height=40)
 
-                background.paste(consonant, (60, 30))
-                background.paste(vowel, (60 + width, 25))
-                background.paste(consonant2, (80, 25 + height2))
+                background.paste(consonant, (10, 10))
+                background.paste(vowel, (int(10+consonant.width), 5))
+                center = 10 + int((consonant.width+vowel.width) * 0.5)
+                background.paste(consonant2, (center-int(consonant2.width*0.5), 5+int(vowel.height)))
                 background.save(
                     path + '/letter_' + str(i).zfill(2) + "_" + str(j).zfill(2) + "_" + str(k).zfill(2) + ".PNG")
 
@@ -53,11 +77,14 @@ def combine_letters_3():
                 vowel = Image.open('./crops/' + str(j) + '.PNG')
                 consonant2 = Image.open('./crops/' + str(k) + '.PNG')
 
-                width, height = consonant.size
+                consonant = rescale_image_ratio(consonant, rescale_height=50)
+                vowel = rescale_image_ratio(vowel, rescale_width=90)
+                consonant2 = rescale_image_ratio(consonant2, rescale_height=40)
 
-                background.paste(consonant, (60, 30))
-                background.paste(vowel, (58, 30 + height))
-                background.paste(consonant2, (60, 50 + height))
+                background.paste(consonant, (50, 10))
+                center = 50 + int(consonant.width*0.5)
+                background.paste(vowel, (center-45, 60))
+                background.paste(consonant2, (center-int(consonant2.width*0.5), 60+int(vowel.height*1.1)))
                 background.save(
                     path + '/letter_' + str(i).zfill(2) + "_" + str(j).zfill(2) + "_" + str(k).zfill(2) + ".PNG")
 
@@ -72,12 +99,14 @@ def combine_letters_4():
                 vowel = Image.open('./crops/' + str(j) + '.PNG')
                 consonant2 = Image.open('./crops/' + str(k) + '.PNG')
 
-                width, height = consonant.size
-                width2, height2 = vowel.size
+                consonant = rescale_image_ratio(consonant, rescale_height=50)
+                vowel = rescale_image_ratio(vowel, rescale_width=90)
+                consonant2 = rescale_image_ratio(consonant2, rescale_height=40)
 
-                background.paste(consonant, (60, 30))
-                background.paste(vowel, (58, 30 + height + int(height / 10)))
-                background.paste(consonant2, (60, 30 + height + height2 + int(height / 10)))
+                background.paste(consonant, (50, 10))
+                center = 50 + int(consonant.width*0.5)
+                background.paste(vowel, (center-45, 10+int(consonant.height*1.1)))
+                background.paste(consonant2, (center-int(consonant2.width*0.5), 60+int(vowel.height*1.1)))
                 background.save(
                     path + '/letter_' + str(i).zfill(2) + "_" + str(j).zfill(2) + "_" + str(k).zfill(2) + ".PNG")
 
@@ -95,19 +124,16 @@ def combine_letters_5():
                 vowel2 = Image.open('./crops/' + str(j) + '.PNG')
                 consonant2 = Image.open('./crops/' + str(k) + '.PNG')
 
-                width, height = consonant.size
-                width2, height2 = vowel.size
-                new_width, height3 = vowel2.size
+                consonant = rescale_image_ratio(consonant, rescale_width=50)
+                vowel = rescale_image_ratio(vowel, rescale_width=60)
+                vowel2 = rescale_image_ratio(vowel2, rescale_height=int((consonant.height+vowel.height)*1.1))
+                consonant2 = rescale_image_ratio(consonant2, rescale_width=40)
 
-                new_height = height + height2
-
-                # Resize the second vowel image with a specified filter
-                vowel2_resized = vowel2.resize((new_width, new_height), Image.LANCZOS)
-
-                background.paste(consonant, (60, 30))
-                background.paste(vowel, (58, 30 + height))
-                background.paste(vowel2, (58 + width2, 30))
-                background.paste(consonant2, (70, 50 + height))
+                background.paste(consonant, (20, 30))
+                background.paste(vowel, (15, 30+consonant.height))
+                background.paste(vowel2, (int(15+vowel.width), 30))
+                center = 15 + int((vowel.width+vowel2.width)*0.5)
+                background.paste(consonant2, (center-int(consonant2.width*0.5), 30+vowel2.height))
                 background.save(
                     path + '/letter_' + str(i).zfill(2) + "_" + str(index).zfill(2) + "_" + str(k).zfill(2) + ".PNG")
             index += 1
@@ -123,19 +149,16 @@ def combine_letters_5():
                 vowel2 = Image.open('./crops/' + str(j) + '.PNG')
                 consonant2 = Image.open('./crops/' + str(k) + '.PNG')
 
-                width, height = consonant.size
-                width2, height2 = vowel.size
-                new_width, height3 = vowel2.size
+                consonant = rescale_image_ratio(consonant, rescale_width=50)
+                vowel = rescale_image_ratio(vowel, rescale_width=60)
+                vowel2 = rescale_image_ratio(vowel2, rescale_height=int((consonant.height+vowel.height)))
+                consonant2 = rescale_image_ratio(consonant2, rescale_width=40)
 
-                new_height = height + height2
-
-                # Resize the second vowel image with a specified filter
-                vowel2_resized = vowel2.resize((new_width, new_height), Image.LANCZOS)
-
-                background.paste(consonant, (60, 30))
-                background.paste(vowel, (58, 30 + height + int(height / 10)))
-                background.paste(vowel2, (58 + width2, 30))
-                background.paste(consonant2, (60, 30 + height + height2 + int(height / 10)))
+                background.paste(consonant, (20, 30))
+                background.paste(vowel, (15, 30+consonant.height))
+                background.paste(vowel2, (int(15+vowel.width), 30))
+                center = 15 + int((vowel.width+vowel2.width)*0.5)
+                background.paste(consonant2, (center-int(consonant2.width*0.5), 30+vowel2.height))
                 background.save(
                     path + '/letter_' + str(i).zfill(2) + "_" + str(index).zfill(2) + "_" + str(k).zfill(2) + ".PNG")
             index += 1
@@ -149,13 +172,16 @@ def combine_letters_5():
             vowel2 = Image.open('./crops/40.PNG')
             consonant2 = Image.open('./crops/' + str(k) + '.PNG')
 
-            width, height = consonant.size
-            width2, height2 = vowel.size
+            consonant = rescale_image_ratio(consonant, rescale_width=50)
+            vowel = rescale_image_ratio(vowel, rescale_width=60)
+            vowel2 = rescale_image_ratio(vowel2, rescale_height=int((consonant.height+vowel.height)))
+            consonant2 = rescale_image_ratio(consonant2, rescale_width=40)
 
-            background.paste(consonant, (60, 30))
-            background.paste(vowel, (58, 30 + height + int(height / 10)))
-            background.paste(vowel2, (58 + width2, 30))
-            background.paste(consonant2, (60, 30 + height + height2 + int(height / 10)))
+            background.paste(consonant, (20, 30))
+            background.paste(vowel, (15, 30+consonant.height))
+            background.paste(vowel2, (int(15+vowel.width), 30))
+            center = 15 + int((vowel.width+vowel2.width)*0.5)
+            background.paste(consonant2, (center-int(consonant2.width*0.5), 30+vowel2.height))
             background.save(path + '/letter_' + str(i).zfill(2) + "_39_" + str(k).zfill(2) + ".PNG")
 
 
