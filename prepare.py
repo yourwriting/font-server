@@ -71,7 +71,7 @@ def run():
 
         # 흰 배경 투명화
         # image = transparent(image)
-        rescale_image_width(20, 20)
+        rescale_image_width(image, 20, 20)
         image.save("./crops/" + str(i) + ".PNG")
 
 
