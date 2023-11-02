@@ -139,4 +139,4 @@ def transletters():
         normalized_image = cv2.equalizeHist(binary_image)
         file_name = os.path.basename(img_path2)
         result_path = os.path.join('./letters2', file_name)
-        normalized_image.save(result_path,'PNG')
+        normalized_image.save(result_path, 'PNG')
