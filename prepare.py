@@ -1,7 +1,7 @@
 from PIL import Image, ImageChops
 import os
 import cv2
-import numpy
+import numpy as np
 
 
 
@@ -134,9 +134,13 @@ def transletters():
         pos_centered = (pos_x, pos_y)
         background.paste(resized_image, pos_centered, resized_image)
         # background.paste(image, img_pos)
-        _, binary_image = cv2.threshold(background, 128, 255, cv2.THRESH_BINARY)
+        background_np = np.array(background)
+        background_cv = cv2.cvtColor(background_np, cv2.COLOR_RGB2BGR)
+        gray_image = cv2.cvtColor(background_cv, cv2.COLOR_BGR2GRAY)
+        _, binary_image = cv2.threshold(gray_image, 128, 255, cv2.THRESH_BINARY)
         # Normalize image
         normalized_image = cv2.equalizeHist(binary_image)
         file_name = os.path.basename(img_path2)
         result_path = os.path.join('./letters2', file_name)
-        normalized_image.save(result_path, 'PNG')
+        # normalized_image.save(result_path, 'PNG')
+        cv2.imwrite(result_path, normalized_image)
