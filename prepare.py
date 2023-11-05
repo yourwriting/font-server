@@ -83,6 +83,7 @@ def run():
 
         # 가장자리 여백 자르기
         image = crop(image)
+        image = Image.fromarray(image)
 
         # 흰 배경 투명화
         # image = transparent(image)
