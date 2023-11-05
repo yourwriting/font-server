@@ -11,26 +11,30 @@ def crop(image):
     diff = ImageChops.difference(image, white)
     diff = ImageChops.add(diff, diff, 2.0, -35)
     bbox = diff.getbbox()
-    # if bbox:
-    #     return image.crop(bbox)
-    # else:  # 이미지가 너무 작을 경우 bbox값이 없을 수도 있음
-    #     print("crop fail")
-    #     return
     if bbox:
-        cropped_image = image.crop(bbox)
-        # PIL 이미지를 NumPy 배열로
-        cropped_image_np = np.array(cropped_image)
-        cropped_image_cv = cv2.cvtColor(cropped_image_np, cv2.COLOR_RGB2BGR)
-        # 그레이스케일 이미지로 변환
-        gray_image = cv2.cvtColor(cropped_image_cv, cv2.COLOR_BGR2GRAY)
-        # 이진화 처리
-        _, binary_image = cv2.threshold(gray_image, 128, 255, cv2.THRESH_BINARY)
-
-        return Image.fromarray(binary_image.astype(np.uint8))
-
+        return image.crop(bbox)
     else:  # 이미지가 너무 작을 경우 bbox값이 없을 수도 있음
         print("crop fail")
         return
+
+
+def crop_to_black(folder_path):
+    # 지정한 폴더 내의 모든 파일에 대해
+    for filename in os.listdir(folder_path):
+        # 이미지 파일만 처리
+        if filename.endswith(".PNG"):
+            # 이미지 파일 경로
+            image_path = os.path.join(folder_path, filename)
+            # OpenCV를 이용하여 이미지 읽기
+            image_cv = cv2.imread(image_path)
+            # 그레이스케일 이미지로 변환
+            gray_image = cv2.cvtColor(image_cv, cv2.COLOR_BGR2GRAY)
+            # 이진화 처리
+            _, binary_image = cv2.threshold(gray_image, 128, 255, cv2.THRESH_BINARY)
+
+            # 이미지 저장 (덮어쓰기)
+            cv2.imwrite(image_path, binary_image)
+
         
 
 # 흰 배경을 투명화시키는 함수
@@ -84,12 +88,12 @@ def run():
 
         # 가장자리 여백 자르기
         image = crop(image)
-        image = Image.fromarray(image)
 
         # 흰 배경 투명화
         # image = transparent(image)
         rescale_image_width(image, 20, 20)
         image.save("./crops/" + str(i) + ".PNG")
+        crop_to_black("./crops/")
 
 
 def transletters():
