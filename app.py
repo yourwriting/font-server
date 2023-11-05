@@ -1,4 +1,4 @@
-from flask import Flask, request, send_file
+from flask import Flask, request, Response
 import io
 from werkzeug.utils import secure_filename
 import os
@@ -10,8 +10,14 @@ import concatImg
 import pngtottf
 
 app = Flask(__name__)
+imageSize = 25
 
-@app.route('/upload', methods=['POST'])
+@app.route('/', methods=['GET'])
+def home():
+    return 'your-writing-flask-server'
+
+
+@app.route('/font/upload', methods=['POST'])
 def upload():
     files = request.files.getlist('files')
     for f in files:
@@ -19,12 +25,12 @@ def upload():
     return 'upload success!'
 
 
-@app.route('/combine', methods=['GET'])
+@app.route('/font/combine', methods=['GET'])
 def combine():
     # 이미지 전처리
     prepare.run() 
     # 조합
-    jamo1.run() 
+    jamo1.run()
     jamo2.run()
     input_folder = './crops'
     output_folder = './combinations'
@@ -34,24 +40,27 @@ def combine():
     return 'combine success!'
 
 
-@app.route('/concat', methods=['GET'])
+@app.route('/font/concat', methods=['GET'])
 def concat():
     folder = './letters2'
     image_paths = [os.path.join(folder, f)
                 for f in os.listdir(folder) if f.endswith('.PNG')]
     image_paths = sorted(image_paths)
 
-    image = concatImg.concat_images(image_paths, (33, 33), (84, 133))
+    concatImg.concat_images(image_paths, (imageSize, imageSize), (84, 133))
     return 'concat success!'
 
 
-@app.route('/create', methods=['GET'])
+@app.route('/font/create', methods=['GET'])
 def create():
-    pngtottf.makefont(33, 33)
-
+    pngtottf.makefont(imageSize, imageSize)
+    
     with open('font.ttf', 'rb') as font_file:
         font_binary = io.BytesIO(font_file.read())
-    return send_file(font_binary, mimetype='application/font-sfnt')
+    response = Response(font_binary, content_type='application/x-font-ttf')
+    response.headers['Content-Disposition'] = 'inline; filename=font.ttf'
+    return response
+
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')
