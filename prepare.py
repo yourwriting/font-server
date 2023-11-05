@@ -25,7 +25,8 @@ def crop(image):
         gray_image = cv2.cvtColor(cropped_image_cv, cv2.COLOR_BGR2GRAY)
         # 이진화 처리
         _, binary_image = cv2.threshold(gray_image, 128, 255, cv2.THRESH_BINARY)
-        return binary_image
+
+        return Image.fromarray(binary_image.astype(np.uint8))
 
     else:  # 이미지가 너무 작을 경우 bbox값이 없을 수도 있음
         print("crop fail")
