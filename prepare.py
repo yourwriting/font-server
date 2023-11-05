@@ -18,6 +18,23 @@ def crop(image):
         return
 
 
+# def crop_to_black(folder_path):
+#     # 지정한 폴더 내의 모든 파일에 대해
+#     for filename in os.listdir(folder_path):
+#         # 이미지 파일만 처리
+#         if filename.endswith(".PNG"):
+#             # 이미지 파일 경로
+#             image_path = os.path.join(folder_path, filename)
+#             # OpenCV를 이용하여 이미지 읽기
+#             image_cv = cv2.imread(image_path)
+#             # 그레이스케일 이미지로 변환
+#             gray_image = cv2.cvtColor(image_cv, cv2.COLOR_BGR2GRAY)
+#             # 이진화 처리
+#             _, binary_image = cv2.threshold(gray_image, 128, 255, cv2.THRESH_BINARY)
+#
+#             # 이미지 저장 (덮어쓰기)
+#             cv2.imwrite(image_path, binary_image)
+
 def crop_to_black(folder_path):
     # 지정한 폴더 내의 모든 파일에 대해
     for filename in os.listdir(folder_path):
@@ -25,15 +42,18 @@ def crop_to_black(folder_path):
         if filename.endswith(".PNG"):
             # 이미지 파일 경로
             image_path = os.path.join(folder_path, filename)
-            # OpenCV를 이용하여 이미지 읽기
-            image_cv = cv2.imread(image_path)
+            # OpenCV를 이용하여 이미지 읽기 (알파 채널 포함)
+            image_cv = cv2.imread(image_path, cv2.IMREAD_UNCHANGED)
             # 그레이스케일 이미지로 변환
-            gray_image = cv2.cvtColor(image_cv, cv2.COLOR_BGR2GRAY)
+            gray_image = cv2.cvtColor(image_cv, cv2.COLOR_BGRA2GRAY)
             # 이진화 처리
             _, binary_image = cv2.threshold(gray_image, 128, 255, cv2.THRESH_BINARY)
-
+            # 알파 채널 추가
+            bgra = cv2.cvtColor(binary_image, cv2.COLOR_GRAY2BGRA)
+            bgra[:, :, 3] = image_cv[:, :, 3]
             # 이미지 저장 (덮어쓰기)
-            cv2.imwrite(image_path, binary_image)
+            cv2.imwrite(image_path, bgra)
+
 
         
 
