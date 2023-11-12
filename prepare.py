@@ -113,7 +113,7 @@ def run():
         # image = transparent(image)
         rescale_image_width(image, 20, 20)
         image.save("./crops/" + str(i) + ".PNG")
-        crop_to_black("./crops/")
+        # crop_to_black("./crops/")
 
 
 def transletters():
