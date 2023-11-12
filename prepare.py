@@ -117,6 +117,7 @@ def run():
 
 
 def transletters():
+    print('resizing 시작')
     files_path = os.path.abspath("./combinations")
     image_list = [os.path.join(files_path, f) for f in os.listdir(files_path) if f.lower().endswith('.png')]
     
@@ -183,3 +184,4 @@ def transletters():
         result_path = os.path.join('./letters2', file_name)
         # normalized_image.save(result_path, 'PNG')
         cv2.imwrite(result_path, normalized_image)
+    print('resizing 끝')

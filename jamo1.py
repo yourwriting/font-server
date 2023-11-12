@@ -145,8 +145,10 @@ def combine_letters_5():
 
 
 def run():
+    print('jamo1 시작')
     combine_letters_1()
     combine_letters_2()
     combine_letters_3()
     combine_letters_4()
     combine_letters_5()
+    print('jamo1 끝')

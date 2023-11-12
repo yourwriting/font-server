@@ -19,6 +19,7 @@ def home():
 
 @app.route('/font/upload', methods=['POST'])
 def upload():
+    print('upload 요청 받음')
     files = request.files.getlist('files')
     for f in files:
         f.save('./images/' + secure_filename(f.filename))
