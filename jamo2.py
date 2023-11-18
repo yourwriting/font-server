@@ -78,12 +78,12 @@ def combine_letters_3():
                 consonant2 = Image.open('./crops/' + str(k) + '.PNG')
 
                 consonant = rescale_image_ratio(consonant, rescale_height=50)
-                vowel = rescale_image_ratio(vowel, rescale_width=90)
+                vowel = rescale_image_ratio(vowel, rescale_width=78)
                 consonant2 = rescale_image_ratio(consonant2, rescale_height=40)
 
                 background.paste(consonant, (50, 10))
                 center = 50 + int(consonant.width*0.5)
-                background.paste(vowel, (center-45, 60))
+                background.paste(vowel, (center-39, 60))
                 background.paste(consonant2, (center-int(consonant2.width*0.5), 60+int(vowel.height*1.1)))
                 background.save(
                     path + '/letter_' + str(i).zfill(2) + "_" + str(j).zfill(2) + "_" + str(k).zfill(2) + ".PNG")
@@ -100,12 +100,12 @@ def combine_letters_4():
                 consonant2 = Image.open('./crops/' + str(k) + '.PNG')
 
                 consonant = rescale_image_ratio(consonant, rescale_height=50)
-                vowel = rescale_image_ratio(vowel, rescale_width=90)
+                vowel = rescale_image_ratio(vowel, rescale_width=78)
                 consonant2 = rescale_image_ratio(consonant2, rescale_height=40)
 
                 background.paste(consonant, (50, 10))
                 center = 50 + int(consonant.width*0.5)
-                background.paste(vowel, (center-45, 10+int(consonant.height*1.1)))
+                background.paste(vowel, (center-39, 63))
                 background.paste(consonant2, (center-int(consonant2.width*0.5), 60+int(vowel.height*1.1)))
                 background.save(
                     path + '/letter_' + str(i).zfill(2) + "_" + str(j).zfill(2) + "_" + str(k).zfill(2) + ".PNG")
@@ -192,4 +192,4 @@ def run():
     combine_letters_3()
     combine_letters_4()
     combine_letters_5()
-    print('jamo3 끝')
+    print('jamo2 끝')

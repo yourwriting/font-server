@@ -10,7 +10,7 @@ import concatImg
 import pngtottf
 
 app = Flask(__name__)
-imageSize = 25
+imageSize = 30
 
 @app.route('/', methods=['GET'])
 def home():
